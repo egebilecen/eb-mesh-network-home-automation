@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:IOTApp"
+             xmlns:ViewModels="clr-namespace:IOTApp.ViewModels" 
+             xmlns:Helpers="clr-namespace:IOTApp.Helpers"
+             xmlns:Controls="clr-namespace:IOTApp.Controls"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             x:Class="IOTApp.Views.MainPage"
+             x:Name="this"
+             Title="Anasayfa">
+    <ContentPage.BindingContext>
+        <ViewModels:MainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <StyleSheet Source="../CSS/App.css"></StyleSheet>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <Helpers:BoolToOnOffConverter x:Key="BoolToOnOffConverter" />
+        <Helpers:BoolToConnectionImage x:Key="BoolToConnectionImage" />
+    </ContentPage.Resources>
+
+    <NavigationPage.HasNavigationBar>True</NavigationPage.HasNavigationBar>
+    <NavigationPage.TitleView>
+        <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center" Padding="0,0,15,0">
+            <Label BindingContext="{x:Reference this}" Text="{Binding Title}" FontSize="Title" FontAttributes="Bold" 
+                    TextColor="{AppThemeBinding Dark=White, Light=White}" />
+            <Controls:Image BindingContext="{x:Static local:IOTClient.Instance}"
+                   IsBlinking="{Binding Blink}" BlinkDuration="250" WidthRequest="50" HeightRequest="50"
+                   Source="{Binding IsConnected, Converter={StaticResource BoolToConnectionImage}}" />
+        </FlexLayout>
+    </NavigationPage.TitleView>
+
+    <StackLayout Margin="{StaticResource ContainerMargin}">
+        <Frame BackgroundColor="{StaticResource BoxColor2}"
+               CornerRadius="25" BorderColor="{StaticResource BoxBorderColor2}"
+               Margin="0,0,0,15">
+            <StackLayout>
+                <Grid VerticalOptions="Center" Margin="0,0,0,20" HeightRequest="75">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="1.25*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--<Image Grid.Row="0" Source="heat.png" WidthRequest="50" HeightRequest="50" />-->
+                    <Label Text="Oda&#10;Sıcaklığı" Grid.Row="0"  Grid.Column="0" TextColor="White" FontSize="22"
+                           FontAttributes="Bold" />
+                    <Frame Grid.Column="2" BackgroundColor="{StaticResource BoxItemColor2}"
+                           BorderColor="{StaticResource BoxBorderColor2}" CornerRadius="15"
+                           Padding="15,10,15,10">
+                        <StackLayout Spacing="3">
+                            <Label Text="Anlık" TextColor="{StaticResource PrimaryColor}" FontSize="16" />
+                            <FlexLayout>
+                                <Label Text="{Binding Temperature, StringFormat='{0:F2}'}" FontAttributes="Bold" FontSize="20" 
+                                       TextColor="White" />
+                                <Label Text="C°" TextColor="#aaa" FontAttributes="Bold" Padding="1,6,0,0" />
+                            </FlexLayout>
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+                
+                <microcharts:ChartView x:Name="TemperatureChart" HeightRequest="150" />
+            </StackLayout>
+        </Frame>
+
+        <Grid HeightRequest="160" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="50*" />
+            </Grid.ColumnDefinitions>
+
+            <Frame Grid.Column="0" BackgroundColor="{StaticResource BoxColor2}"
+                   CornerRadius="25" BorderColor="{StaticResource BoxBorderColor2}" 
+                   Padding="10">
+                <Grid Padding="5,0,5,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" HorizontalOptions="Start" Source="bulb.png" WidthRequest="60" HeightRequest="60" Margin="-15,0,0,-15" />
+                    <Label Grid.Row="1" Text="Salon"
+                            FontSize="18" TextColor="#fff" />
+                    <FlexLayout Grid.Row="3" AlignItems="Center" JustifyContent="SpaceBetween">
+                        <Label Text="{Binding IsToggled, Source={x:Reference LambSwitch}, Converter={StaticResource BoolToOnOffConverter}}" TextColor="#aaa" />
+                        <Switch x:Name="LambSwitch" OnColor="#818181" ThumbColor="{StaticResource WarningColor}"
+                                IsToggled="{Binding IsLambToggled, Mode=TwoWay}" IsEnabled="{Binding IsConnected, Source={x:Static local:IOTClient.Instance}}" />
+                    </FlexLayout>
+                </Grid>
+            </Frame>
+
+            <Frame Grid.Column="2" BackgroundColor="{StaticResource BoxColor2}"
+                   CornerRadius="25" BorderColor="{StaticResource BoxBorderColor2}" 
+                   Padding="10">
+                <Grid Padding="5,0,5,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" HorizontalOptions="Start" Source="bulb.png" WidthRequest="60" HeightRequest="60" Margin="-15,0,0,-15" />
+                    <Label Grid.Row="1" Text="Mutfak"
+                            FontSize="18" TextColor="#fff" />
+                    <FlexLayout Grid.Row="3" AlignItems="Center" JustifyContent="SpaceBetween">
+                        <Label Text="{Binding IsToggled, Source={x:Reference LambSwitch2}, Converter={StaticResource BoolToOnOffConverter}}" TextColor="#aaa" />
+                        <Switch x:Name="LambSwitch2" OnColor="#818181" ThumbColor="{StaticResource WarningColor}"
+                                IsToggled="{Binding IsLambToggled2, Mode=TwoWay}"  IsEnabled="{Binding IsConnected, Source={x:Static local:IOTClient.Instance}}" />
+                    </FlexLayout>
+                </Grid>
+            </Frame>
+        </Grid>
+        
+        <!--
+        <Button Grid.Row="0" Grid.Column="2" Text="➤" 
+                FontAttributes="Bold" FontSize="15" TextColor="#fff"
+                WidthRequest="50" HeightRequest="50" CornerRadius="10" 
+                Command="{Binding ButtonClick}"/>
+        -->
+    </StackLayout>
+</ContentPage>

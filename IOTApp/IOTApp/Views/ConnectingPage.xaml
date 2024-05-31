@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:IOTApp"
+             xmlns:Helpers="clr-namespace:IOTApp.Helpers"
+             x:Class="IOTApp.Views.ConnectingPage"
+             x:Name="this"
+             Title="Connecting To Server">
+    <ContentPage.Resources>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <Helpers:BoolToConnectionImage x:Key="BoolToConnectionImage"/>
+    </ContentPage.Resources>
+
+    <NavigationPage.HasNavigationBar>False</NavigationPage.HasNavigationBar>
+    <NavigationPage.TitleView>
+        <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center" Padding="0,0,15,0">
+            <Label BindingContext="{x:Reference this}" Text="{Binding Title}" FontSize="Title" FontAttributes="Bold" 
+                    TextColor="{AppThemeBinding Dark=White, Light=White}" />
+            <Image Source="{Binding IsConnected, Source={x:Static local:IOTClient.Instance}, Converter={StaticResource BoolToConnectionImage}}"
+                   WidthRequest="50" HeightRequest="50" />
+        </FlexLayout>
+    </NavigationPage.TitleView>
+
+    <StackLayout VerticalOptions="Center">
+        <StackLayout Padding="5" HorizontalOptions="Center"
+                IsVisible="{Binding IsConnected, Source={x:Static local:IOTClient.Instance}, Converter={StaticResource InverseBoolConverter}}">
+            <Label Text="Connecting to server" Padding="0,0,10,0" FontSize="20"
+                   TextColor="{StaticResource WarningColor}" />
+            <ActivityIndicator IsRunning="true" WidthRequest="35" HeightRequest="35" 
+                    Color="{StaticResource WarningColor}" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

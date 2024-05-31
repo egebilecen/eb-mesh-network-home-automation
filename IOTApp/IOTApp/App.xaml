@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IOTApp.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- Colors -->
+            <Color x:Key="PrimaryColor">#23f99c</Color>
+            <Color x:Key="SecondaryColor">#ff4d9f</Color>
+            <Color x:Key="WarningColor">#ff9c00</Color>
+            <Color x:Key="DangerColor">Red</Color>
+            <Color x:Key="InfoColor">#2597e1</Color>
+            
+            <Color x:Key="NavigationBarColor">#242729</Color>
+            <Color x:Key="ButtonColor">#42474a</Color>
+            
+            <Color x:Key="PageColor">#1a1c1d</Color>
+            <Color x:Key="BoxColor">#2c2b32</Color>
+            <Color x:Key="BoxBorderColor">#aaa</Color>
+            
+            <Color x:Key="PageColor2">#262838</Color>
+            <Color x:Key="BoxColor2">#2e303f</Color>
+            <Color x:Key="BoxItemColor2">#2b2d3c</Color>
+            <Color x:Key="BoxBorderColor2">#444759</Color>
+
+            <Thickness x:Key="ContainerMargin">25,15,25,0</Thickness>
+
+            <!-- Dark Mode Styling -->
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationBarColor}" />
+            </Style>
+
+            <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="{StaticResource PageColor2}" />
+            </Style>
+
+            <Style TargetType="ActivityIndicator">
+                <Setter Property="Color" Value="{StaticResource PrimaryColor}" />
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}"/>
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
